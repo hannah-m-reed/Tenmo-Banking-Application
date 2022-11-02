@@ -8,6 +8,7 @@ import com.techelevator.tenmo.services.ConsoleService;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 
 public class App {
 
@@ -18,7 +19,7 @@ public class App {
     private AccountService accountService = new AccountService();
 
     private AuthenticatedUser currentUser;
-
+    private Principal principal;
 
     public static void main(String[] args) {
         App app = new App();
@@ -66,6 +67,8 @@ public class App {
         }
     }
 
+
+
     private void mainMenu() {
         int menuSelection = -1;
         while (menuSelection != 0) {
@@ -95,7 +98,10 @@ public class App {
         //call a service (we create) and the api could return an account object
 
         //account.getBalance();
-        System.out.println("Your current account balance is: " + accountService.getAccount(currentUser).getBalance());
+
+        // isauthenticated error
+        System.out.println("Your current account balance is: "
+                + accountService.getAccount(currentUser.getToken()).getBalance());
 
     }
 

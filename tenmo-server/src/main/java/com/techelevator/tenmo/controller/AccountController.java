@@ -11,7 +11,8 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.security.Principal;
 
-@PreAuthorize("isAuthenticated()")
+//TODO change this back to isAuthenticated
+@PreAuthorize("permitAll()")
 @RestController
 public class AccountController {
 
@@ -22,16 +23,16 @@ public class AccountController {
     }
 
 
-    @RequestMapping(path = "/account/{user}", method = RequestMethod.GET)
-    public Account getAccountBalance(@Valid @PathVariable Principal principal){
-        Account account = new Account();
+    @RequestMapping(path = "/account/", method = RequestMethod.GET)
+    public Account get(Principal principal){
+
 
         //put in try-catch?
-        account = accountDao.retrieveAccount(principal);
+        return accountDao.retrieveAccount(principal);
 
         //return object
 
-        return account;
+
     }
 
 }

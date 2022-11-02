@@ -1,14 +1,14 @@
 package com.techelevator.tenmo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class Account {
 
-    //TODO: connect column name to variable name
-    //("account_id")
+    @JsonProperty("account_id")
     private int accountId;
-    //TODO: connect column name to variable name
-    //("user_id")
+    @JsonProperty ("user_id")
     private int userId;
     private BigDecimal balance;
 
