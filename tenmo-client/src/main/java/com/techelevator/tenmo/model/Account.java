@@ -12,8 +12,11 @@ public class Account {
     private int userId;
     private BigDecimal balance;
 
+
+    //TODO see if this is needed
     public Account(){};
 
+    //TODO see if this is needed
     public Account(int accountId, int userId, BigDecimal balance) {
         this.accountId = accountId;
         this.userId = userId;

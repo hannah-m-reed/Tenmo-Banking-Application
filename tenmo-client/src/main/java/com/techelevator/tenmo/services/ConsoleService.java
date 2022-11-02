@@ -1,9 +1,12 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -55,6 +58,24 @@ public class ConsoleService {
     public String promptForString(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();
+    }
+
+    public void printTransferList(Transfer[] transfers) {
+        System.out.println("-------------------------");
+        System.out.println("Transfers");
+        System.out.println("ID          From/To         Amount");
+        System.out.println("-------------------------");
+        for(Transfer transfer: transfers) {
+            //TODO check Null
+            if (transfer.getTransferTypeId() == 2) {
+                //TODO fix account number instead of name
+                System.out.println(transfer.getTransferId() + "     To:   " + transfer.getAccountFrom() + "       " + transfer.getAmount());
+            } else {
+                System.out.println(transfer.getTransferId() + "     From: " + transfer.getAccountTo() + "       " + transfer.getAmount());
+            }
+        }
+        System.out.println("---------");
+        System.out.println("Please enter transfer ID to view details (0 to cancel): ");
     }
 
     public int promptForInt(String prompt) {

@@ -11,8 +11,8 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.security.Principal;
 
-//TODO change this back to isAuthenticated
-@PreAuthorize("permitAll()")
+
+@PreAuthorize("isAuthenticated()")
 @RestController
 public class AccountController {
 

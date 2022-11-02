@@ -10,3 +10,4 @@
 2022-11-02T15:20:44.4466486 500 : [{"timestamp":"2022-11-02T19:20:44.430+00:00","status":500,"error":"Internal Server Error","message":"No message available","path":"/account/hannah"}]
 2022-11-02T15:34:45.3319538 404 : [{"timestamp":"2022-11-02T19:34:45.313+00:00","status":404,"error":"Not Found","message":"No message available","path":"/account/hannah"}]
 2022-11-02T15:58:07.0124367 404 : [{"timestamp":"2022-11-02T19:58:06.994+00:00","status":404,"error":"Not Found","message":"No message available","path":"/account/hannah"}]
+2022-11-02T17:00:05.8477101 404 : [{"timestamp":"2022-11-02T21:00:05.826+00:00","status":404,"error":"Not Found","message":"No message available","path":"/transfer/"}]
