@@ -21,7 +21,6 @@ public class App {
     private AccountService accountService = new AccountService();
     private TransferService transferService = new TransferService();
     private AuthenticatedUser currentUser;
-    private Principal principal;
 
     public static void main(String[] args) {
         App app = new App();
@@ -80,6 +79,7 @@ public class App {
                 viewCurrentBalance();
             } else if (menuSelection == 2) {
                 viewTransferHistory();
+                viewTransferDetails();
             } else if (menuSelection == 3) {
                 viewPendingRequests();
             } else if (menuSelection == 4) {
@@ -96,25 +96,25 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
-        //call a service (we create) and the api could return an account object
-
-        //account.getBalance();
-
-        // isauthenticated error
         System.out.println("Your current account balance is: "
                 + accountService.getAccount(currentUser.getToken()).getBalance());
 
     }
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
+        //TODO: print usernames not account numbers
 		consoleService.printTransferList(transferService.getTransfers(currentUser.getToken()));
 	}
 
+    private void viewTransferDetails() {
+        //TODO: print usernames not account numbers AND "Press Enter to continue.."
+        consoleService.printOneTransfer(
+         transferService.getSingleTransfer(currentUser.getToken(), consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ")));
+
+    }
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
-		
+        consoleService.printPendingTransfers(transferService.getTransfers(currentUser.getToken()));
 	}
 
 	private void sendBucks() {

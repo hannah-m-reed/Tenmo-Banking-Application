@@ -22,6 +22,26 @@ public class Transfer {
     @JsonProperty ("transfer_status_desc")
     private String transferStatusDescription;
 
+    @JsonProperty("user_to")
+    private String userTo;
+    @JsonProperty("user_from")
+    private String userFrom;
+
+    public String getUserTo() {
+        return userTo;
+    }
+    public void setUserTo(String userTo) {
+        this.userTo = userTo;
+    }
+
+    public String getUserFrom() {
+        return userFrom;
+    }
+    public void setUserFrom(String userFrom) {
+        this.userFrom = userFrom;
+    }
+
+
     public int getTransferId() {
         return transferId;
     }

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface TransferDao {
 
-    List<Transfer> listOfTransfer(Principal principal);
+    //List<Transfer> listOfTransfer(int id, Principal principal);
 
+    Transfer getSingleTransfer(int transferId, int userId);
 }

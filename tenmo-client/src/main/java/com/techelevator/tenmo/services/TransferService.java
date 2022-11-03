@@ -13,6 +13,7 @@ import java.util.List;
 
 public class TransferService {
 
+
     private static final String API_BASE_URL = "http://localhost:8080/transfer/";
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -27,6 +28,19 @@ public class TransferService {
         }
         return transfersList;
     }
+
+    public Transfer getSingleTransfer(String token, int transferId){
+        Transfer transfer = null;
+        try{
+            ResponseEntity<Transfer> entity = restTemplate.exchange(API_BASE_URL + transferId, HttpMethod.GET, makeAuthEntity(token), Transfer.class);
+            transfer = entity.getBody();
+        }catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+
+        return transfer;
+    }
+
 
     //Post and Put
     private HttpEntity<Transfer> makeTransferEntity(Transfer transfer, String token) {

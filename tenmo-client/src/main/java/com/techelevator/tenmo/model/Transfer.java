@@ -12,25 +12,22 @@ public class Transfer {
     private int transferTypeId;
     @JsonProperty ("transfer_status_id")
     private int transferStatusId;
+
     @JsonProperty ("account_from")
     private int accountFrom;
     @JsonProperty ("account_to")
     private int accountTo;
+
     private BigDecimal amount;
     @JsonProperty ("transfer_type_desc")
     private String transferTypeDescription;
     @JsonProperty ("transfer_status_desc")
     private String transferStatusDescription;
+
+    @JsonProperty("user_to")
     private String userTo;
+    @JsonProperty("user_from")
     private String userFrom;
-
-    public String getUserFrom() {
-        return userFrom;
-    }
-
-    public void setUserFrom(String userFrom) {
-        this.userFrom = userFrom;
-    }
 
     public String getUserTo() {
         return userTo;
@@ -40,7 +37,13 @@ public class Transfer {
         this.userTo = userTo;
     }
 
+    public String getUserFrom() {
+        return userFrom;
+    }
 
+    public void setUserFrom(String userFrom) {
+        this.userFrom = userFrom;
+    }
 
     public int getTransferId() {
         return transferId;
@@ -105,4 +108,21 @@ public class Transfer {
     public void setTransferStatusDescription(String transferStatusDescription) {
         this.transferStatusDescription = transferStatusDescription;
     }
+
+
+//    @Override
+//    public String toString() {
+//        return "Transfer{" +
+//                "transferId=" + transferId +
+//                ", transferTypeId=" + transferTypeId +
+//                ", transferStatusId=" + transferStatusId +
+//                ", accountFrom=" + accountFrom +
+//                ", accountTo=" + accountTo +
+//                ", amount=" + amount +
+//                ", transferTypeDescription='" + transferTypeDescription + '\'' +
+//                ", transferStatusDescription='" + transferStatusDescription + '\'' +
+//                ", userTo='" + userTo + '\'' +
+//                ", userFrom='" + userFrom + '\'' +
+//                '}';
+//    }
 }

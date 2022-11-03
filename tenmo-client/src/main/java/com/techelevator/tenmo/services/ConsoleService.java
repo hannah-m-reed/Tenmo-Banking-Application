@@ -69,14 +69,31 @@ public class ConsoleService {
             //TODO check Null
             if (transfer.getTransferTypeId() == 2) {
                 //TODO fix account number instead of name
-                System.out.println(transfer.getTransferId() + "     To:   " + transfer.getAccountFrom() + "       " + transfer.getAmount());
+                System.out.println(transfer.getTransferId() + "     To:   " + transfer.getUserTo() + "       " + transfer.getAmount());
             } else {
-                System.out.println(transfer.getTransferId() + "     From: " + transfer.getAccountTo() + "       " + transfer.getAmount());
+                System.out.println(transfer.getTransferId() + "     From: " + transfer.getUserFrom() + "       " + transfer.getAmount());
             }
         }
         System.out.println("---------");
-        System.out.println("Please enter transfer ID to view details (0 to cancel): ");
     }
+
+
+    public void printPendingTransfers(Transfer[] transfers) {
+        System.out.println("-------------------------");
+        System.out.println("Pending Transfers");
+        System.out.println("ID          To         Amount");
+        System.out.println("-------------------------");
+        for(Transfer transfer: transfers) {
+            //TODO check Null
+            if (transfer.getTransferStatusId() == 1) {
+                //TODO fix account number instead of name
+                System.out.println(transfer.getTransferId() + "     " + transfer.getUserTo() + "       " + transfer.getAmount());
+            }
+        }
+        System.out.println("---------");
+    }
+
+
 
     public int promptForInt(String prompt) {
         System.out.print(prompt);
@@ -88,6 +105,22 @@ public class ConsoleService {
             }
         }
     }
+
+    public void printOneTransfer(Transfer transfer){
+
+        System.out.println("-------------------------");
+        System.out.println("Transfer detail: ");
+        System.out.println("-------------------------");
+        System.out.println("ID: " + transfer.getTransferId());
+        System.out.println("From: " + transfer.getUserFrom());
+        System.out.println("To: " + transfer.getUserTo());
+        System.out.println("Type: " + transfer.getTransferTypeDescription());
+        System.out.println("Status: " + transfer.getTransferStatusDescription());
+        System.out.println("Amount: " + transfer.getAmount());
+        System.out.println("---------");
+
+    }
+
 
     public BigDecimal promptForBigDecimal(String prompt) {
         System.out.print(prompt);
