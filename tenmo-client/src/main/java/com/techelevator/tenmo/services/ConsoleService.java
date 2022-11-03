@@ -69,9 +69,9 @@ public class ConsoleService {
             //TODO check Null
             if (transfer.getTransferTypeId() == 2) {
                 //TODO fix account number instead of name
-                System.out.println(transfer.getTransferId() + "     To:   " + transfer.getUserTo() + "       " + transfer.getAmount());
+                System.out.println(transfer.getTransferId() + "     To:   " + transfer.getUsername() + "       $" + transfer.getAmount());
             } else {
-                System.out.println(transfer.getTransferId() + "     From: " + transfer.getUserFrom() + "       " + transfer.getAmount());
+                System.out.println(transfer.getTransferId() + "     From: " + transfer.getUsername() + "       $" + transfer.getAmount());
             }
         }
         System.out.println("---------");
@@ -87,7 +87,7 @@ public class ConsoleService {
             //TODO check Null
             if (transfer.getTransferStatusId() == 1) {
                 //TODO fix account number instead of name
-                System.out.println(transfer.getTransferId() + "     " + transfer.getUserTo() + "       " + transfer.getAmount());
+                System.out.println(transfer.getTransferId() + "     " + transfer.getUsername() + "       $" + transfer.getAmount());
             }
         }
         System.out.println("---------");
@@ -108,6 +108,7 @@ public class ConsoleService {
 
     public void printOneTransfer(Transfer transfer){
 
+
         System.out.println("-------------------------");
         System.out.println("Transfer detail: ");
         System.out.println("-------------------------");
@@ -116,7 +117,7 @@ public class ConsoleService {
         System.out.println("To: " + transfer.getUserTo());
         System.out.println("Type: " + transfer.getTransferTypeDescription());
         System.out.println("Status: " + transfer.getTransferStatusDescription());
-        System.out.println("Amount: " + transfer.getAmount());
+        System.out.println("Amount: $" + transfer.getAmount());
         System.out.println("---------");
 
     }

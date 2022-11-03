@@ -19,7 +19,7 @@ public class TransferService {
 
     public Transfer[] getTransfers (String token) {
 
-        Transfer[] transfersList = null;
+        Transfer[] transfersList = new Transfer[]{};
         try {
             ResponseEntity<Transfer[]> entity = restTemplate.exchange(API_BASE_URL, HttpMethod.GET, makeAuthEntity(token), Transfer[].class);
             transfersList = entity.getBody();
@@ -29,10 +29,10 @@ public class TransferService {
         return transfersList;
     }
 
-    public Transfer getSingleTransfer(String token, int transferId){
+    public Transfer getSingleTransfer(String token, int id){
         Transfer transfer = null;
         try{
-            ResponseEntity<Transfer> entity = restTemplate.exchange(API_BASE_URL + transferId, HttpMethod.GET, makeAuthEntity(token), Transfer.class);
+            ResponseEntity<Transfer> entity = restTemplate.exchange(API_BASE_URL + id, HttpMethod.GET, makeAuthEntity(token), Transfer.class);
             transfer = entity.getBody();
         }catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());

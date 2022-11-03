@@ -21,15 +21,16 @@ public class TransferController {
     private TransferDao transferDao;
     private UserDao userDao;
 
-    public TransferController(TransferDao transferDao) {
+    public TransferController(TransferDao transferDao, UserDao userDao) {
         this.transferDao = transferDao;
+        this.userDao = userDao;
     }
 
-//    @RequestMapping(path = "/transfer/", method = RequestMethod.GET)
-//    public List<Transfer> transferList (Principal principal){
-//        int userId = userDao.findIdByUsername(princple.getName())
-//        return transferDao.listOfTransfer(userId);
-//    }
+    @RequestMapping(path = "/transfer/", method = RequestMethod.GET)
+    public List<Transfer> transferList (Principal principal){
+        int userId = userDao.findIdByUsername(principal.getName());
+        return transferDao.listOfTransfer(userId);
+    }
 
 
     @RequestMapping(path = "/transfer/{id}", method = RequestMethod.GET)
