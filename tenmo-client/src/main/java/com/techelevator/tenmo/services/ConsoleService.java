@@ -1,7 +1,9 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -93,6 +95,18 @@ public class ConsoleService {
         System.out.println("---------");
     }
 
+    //TODO rename?
+    public void printUsers(User[] users){
+        System.out.println("-------------------------");
+        System.out.println("Users");
+        System.out.println("ID          Name");
+        System.out.println("-------------------------");
+        for(User user: users) {
+            System.out.println(user.getId() + "        " + user.getUsername());
+        }
+        System.out.println("---------");
+    }
+
 
 
     public int promptForInt(String prompt) {
@@ -107,8 +121,6 @@ public class ConsoleService {
     }
 
     public void printOneTransfer(Transfer transfer){
-
-
         System.out.println("-------------------------");
         System.out.println("Transfer detail: ");
         System.out.println("-------------------------");
@@ -121,6 +133,8 @@ public class ConsoleService {
         System.out.println("---------");
 
     }
+
+
 
 
     public BigDecimal promptForBigDecimal(String prompt) {

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JdbcAccountDao implements AccountDao{
@@ -33,6 +35,31 @@ public class JdbcAccountDao implements AccountDao{
             return mapRowToAccount(result);
         }
         return account;
+    }
+
+    @Override
+    public List<Account> allAccounts(){
+        List<Account> allAccounts = new ArrayList<>();
+
+        String sql = "SELECT account_id, account.user_id, balance " +
+                        " FROM account; ";
+
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
+        while (result.next()){
+            allAccounts.add(mapRowToAccount(result));
+        }
+        return allAccounts;
+    }
+
+    @Override
+    public boolean updateBalance(Account account, BigDecimal newBalance){
+
+        String sql = " UPDATE account" +
+                        "SET account_balance = ?" +
+                        "WHERE account_id = ?; ";
+
+        return jdbcTemplate.update(sql, newBalance, account.getAccountId()) == 1;
+
     }
 
 

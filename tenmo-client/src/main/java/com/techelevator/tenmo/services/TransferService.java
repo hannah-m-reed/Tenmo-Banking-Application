@@ -1,6 +1,6 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
+
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
@@ -8,8 +8,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class TransferService {
 
