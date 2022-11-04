@@ -113,6 +113,15 @@ public class JdbcUserDaoTests extends BaseDaoTests {
         Assert.assertEquals(newUser, actualUser);
     }
 
-    //TODO: Test for findALLExceptUser, one test needed
+
+    @Test
+    public void findAllExcpetUser_returns_userListWithoutCurrentUser(){
+        List<User> users = sut.findAllExceptUser(1001);
+
+        Assert.assertNotNull(users);
+        Assert.assertEquals(2, users.size());
+        Assert.assertEquals(USER_2, users.get(0));
+        Assert.assertEquals(USER_3, users.get(1));
+    }
 
 }
