@@ -10,4 +10,6 @@ public interface TransferDao {
     List<Transfer> listOfTransfer(int userId);
 
     Transfer getSingleTransfer(int transferId, int userId);
+
+    boolean createTransfer(Transfer transfer);
 }

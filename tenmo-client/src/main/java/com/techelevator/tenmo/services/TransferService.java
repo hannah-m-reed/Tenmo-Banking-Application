@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
@@ -40,8 +41,32 @@ public class TransferService {
         return transfer;
     }
 
+    //TODO: DELETE THIS?
+    public Transfer getTransferById(String token, int transferId) {
+        Transfer[] transferArray = getTransfers(token);
+        Transfer transfer = null;
+        for (Transfer element: transferArray){
+            if (element.getTransferId() == transferId) {
+                transfer = element;
+            }
+        }
+        return transfer;
+    }
+
+
 
     //TODO make add method for a new transfer - check for transfer status in method
+    public Transfer createTransfer(String token, Transfer newTransfer){
+        HttpEntity<Transfer> entity = makeTransferEntity(newTransfer, token);
+
+        Transfer returnTransfer = null;
+        try {
+            returnTransfer = restTemplate.postForObject(API_BASE_URL + "new", entity, Transfer.class);
+        }  catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return returnTransfer;
+    }
 
 
     //Post and Put

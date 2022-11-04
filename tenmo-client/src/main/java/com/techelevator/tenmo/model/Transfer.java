@@ -31,6 +31,19 @@ public class Transfer {
     @JsonProperty("user_from")
     private String userFrom;
 
+    public Transfer(){};
+
+    public Transfer(int transferTypeId, int transferStatusId, int accountFrom, int accountTo, BigDecimal amount, String transferTypeDescription, String transferStatusDescription) {
+        this.transferTypeId = transferTypeId;
+        this.transferStatusId = transferStatusId;
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.amount = amount;
+        this.transferTypeDescription = transferTypeDescription;
+        this.transferStatusDescription = transferStatusDescription;
+
+    }
+
     public String getUserTo() {
         return userTo;
     }

@@ -5,11 +5,9 @@ import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -41,5 +39,11 @@ public class TransferController {
     }
 
     //TODO method to add (post) new transfer
+
+    @RequestMapping(path = "/transfer/new", method = RequestMethod.POST)
+    public Transfer newTransfer(@Valid @RequestBody Transfer transfer) {
+        transferDao.createTransfer(transfer);
+        return transfer;
+    }
 
 }

@@ -23,13 +23,12 @@ public class Transfer {
     private String transferStatusDescription;
 
     private String username;
-
-
-
     @JsonProperty("user_to")
     private String userTo;
     @JsonProperty("user_from")
     private String userFrom;
+
+
 
     public String getUserTo() {
         return userTo;

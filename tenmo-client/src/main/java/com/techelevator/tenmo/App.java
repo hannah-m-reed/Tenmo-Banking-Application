@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
@@ -104,8 +105,12 @@ public class App {
 
     private void viewTransferDetails() {
         //TODO: check for invalid transfer id input
-        consoleService.printOneTransfer(
-         transferService.getSingleTransfer(currentUser.getToken(), consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ")));
+        int transferID = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
+        if (!isInputValidTransfer(transferID)) {
+            System.out.println("TransferId does not exist. Please try again");
+        }else {
+            consoleService.printOneTransfer(transferService.getSingleTransfer(currentUser.getToken(), transferID));
+        }
 
     }
 	private void viewPendingRequests() {
@@ -150,9 +155,23 @@ public class App {
                         currentUser.getUser().getUsername());
 
                 System.out.println("Transfer was successful!");
-                //TODO: add transfer method using transferService
+
+
+                Transfer newTransfer = new Transfer(2,
+                        2,
+                        accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser.getToken()).getAccountId(),
+                        accountService.getAccountByUserId(userId, currentUser.getToken()).getAccountId(),
+                        amount,
+                        "Send",
+                        "Approved");
+                        //username,
+                        //username,
+                        //currentUser.getUser().getUsername());
+                transferService.createTransfer(currentUser.getToken(), newTransfer);
             }
         }
+
+
 	}
 
     private void requestBucks() {
@@ -201,6 +220,17 @@ public class App {
 
         for(User user : userService.userList(currentUser.getToken())){
             if (user.getId() == userId){
+                containsId = true;
+            }
+        }
+        return containsId;
+    }
+
+    private boolean isInputValidTransfer(int transferID) {
+        boolean containsId = false;
+
+        for(Transfer transfer : transferService.getTransfers(currentUser.getToken())){
+            if (transfer.getTransferId() == transferID){
                 containsId = true;
             }
         }
