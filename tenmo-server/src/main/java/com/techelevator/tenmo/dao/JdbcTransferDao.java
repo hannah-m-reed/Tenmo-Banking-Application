@@ -48,51 +48,6 @@ public class JdbcTransferDao implements TransferDao{
         return transferList;
     }
 
-
-//    public List<Transfer> listOfTransfer(int userId){
-//        List<Transfer> transferList = new ArrayList<>();
-
-        //use userId instead of principle
-//        String sql = "SELECT transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, account_from, " +
-//                        " account_to, amount, transfer_status.transfer_status_desc, transfer_type.transfer_type_desc " +
-//                        " (SELECT username AS user_from " +
-//                            " FROM tenmo_user " +
-//                            " JOIN account ON account.user_id = tenmo_user.user_id " +
-//                            " JOIN transfer ON transfer.account_from = account.account_id " +
-//                            " WHERE transfer_id = ?), " +
-//                        " (SELECT username AS user_to " +
-//                            " FROM tenmo_user " +
-//                            " JOIN account ON account.user_id = tenmo_user.user_id " +
-//                            " JOIN transfer ON transfer.account_to = account.account_id " +
-//                            " WHERE transfer_id = ?) " +
-//                " FROM transfer " +
-//                    " JOIN transfer_type " +
-//                        " ON transfer_type.transfer_type_id = transfer.transfer_type_id " +
-//                    " JOIN transfer_status " +
-//                        " ON transfer_status.transfer_status_id = transfer.transfer_status_id " +
-//                    " WHERE account_from = (SELECT account.account_id " +
-//                                            " FROM account " +
-//                                            " JOIN tenmo_user " +
-//                                                " ON tenmo_user.user_id = account.user_id " +
-//                                            " WHERE username = ?) " +
-//                    " OR account_to = (SELECT account.account_id " +
-//                                        " FROM account " +
-//                                        " JOIN tenmo_user  " +
-//                                            " ON tenmo_user.user_id = account.user_id " +
-//                                        " WHERE username = ?);";
-//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, principal.getName(), principal.getName());
-//
-//        while (results.next()){
-//            transferList.add(mapRowToTransfer(results));
-//        }
-//        return transferList;
-//    }
-
-
-
-
-
-
     //use for getting specific transfer details
     @Override
     public Transfer getSingleTransfer (int transferId, int userId) {
@@ -134,6 +89,7 @@ public class JdbcTransferDao implements TransferDao{
         return transfer;
     }
 
+    //TODO method to add (post) new transfer
 
 
     private Transfer mapRowToSingleTransfer(SqlRowSet results){
@@ -170,41 +126,3 @@ public class JdbcTransferDao implements TransferDao{
     }
 
 }
-
-//TODO: delete this???
-//    public Transfer getSingleTransfer(int id, Principal principal){
-//        Transfer transfer = new Transfer();
-//        String sql = "SELECT transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, account_from, " +
-//                        " account_to, amount, transfer_status.transfer_status_desc, transfer_type.transfer_type_desc, " +
-//                        " (SELECT username AS user_from " +
-//                            " FROM tenmo_user " +
-//                            " JOIN account ON account.user_id = tenmo_user.user_id " +
-//                            " JOIN transfer ON transfer.account_from = account.account_id " +
-//                            " WHERE transfer_id = ?), " +
-//                        " (SELECT username AS user_to " +
-//                            " FROM tenmo_user " +
-//                            " JOIN account ON account.user_id = tenmo_user.user_id " +
-//                            " JOIN transfer ON transfer.account_to = account.account_id " +
-//                             " WHERE transfer_id = ?) " +
-//                    " FROM transfer " +
-//                    " JOIN transfer_type " +
-//                        " ON transfer_type.transfer_type_id = transfer.transfer_type_id " +
-//                    " JOIN transfer_status " +
-//                        " ON transfer_status.transfer_status_id = transfer.transfer_status_id " +
-//                    " WHERE (account_from = (SELECT account.account_id " +
-//                                             " FROM account " +
-//                                            " JOIN tenmo_user " +
-//                                            " ON tenmo_user.user_id = account.user_id " +
-//                                            " WHERE username = ?) " +
-//                     " OR account_to = (SELECT account.account_id " +
-//                                             " FROM account " +
-//                                             " JOIN tenmo_user  " +
-//                                              " ON tenmo_user.user_id = account.user_id " +
-//                                               " WHERE username = ?)) " +
-//                    " AND transfer_id = ?; ";
-//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id, id, principal.getName(), principal.getName(), id);
-//        if (results.next()){
-//            transfer = mapRowToTransfer(results);
-//        }
-//        return transfer;
-//    }

@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
 
@@ -98,18 +99,17 @@ public class App {
     }
 
 	private void viewTransferHistory() {
-        //TODO: print usernames not account numbers
 		consoleService.printTransferList(transferService.getTransfers(currentUser.getToken()));
 	}
 
     private void viewTransferDetails() {
-        //TODO: print usernames not account numbers AND "Press Enter to continue.."
+        //TODO: check for invalid transfer id input
         consoleService.printOneTransfer(
          transferService.getSingleTransfer(currentUser.getToken(), consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ")));
 
     }
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+		// TODO: approve or reject pending transfers
         consoleService.printPendingTransfers(transferService.getTransfers(currentUser.getToken()));
 	}
 
@@ -119,60 +119,92 @@ public class App {
 
         int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
 
-        String username = accountService.getUsernameByAccount(userId, userService.userList(currentUser.getToken()));
 
-        BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
+        if (userId == currentUser.getUser().getId()){
+            System.out.println("Cannot send money to yourself. Please try again");
 
-        //adds to other user's balance
-        accountService.addToBalance(
-            accountService.getAccountByUserId(userId, currentUser.getToken()),
-            currentUser.getToken(),
-            amount,
-            username);
+        } else if (!isInputValidUser(userId)){
+            System.out.println("User does not exist. Please try again.");
+        } else {
+            String username = accountService.getUsernameByAccount(userId, userService.userList(currentUser.getToken()));
 
-        //subtracts from current user's balance
-        accountService.subtractFromBalance(
-            accountService.getAccount(currentUser.getToken()),
-            currentUser.getToken(),
-            amount,
-            currentUser.getUser().getUsername());
+            BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
 
+            if (amount.compareTo(accountService.getAccount(currentUser.getToken()).getBalance()) >= 1 ){
+                System.out.println("Cannot send more bucks then you have in your account. Please try again.");
+            } else if (amount.compareTo(BigDecimal.ZERO) <= 0){
+                System.out.println("Cannot send zero or negative bucks. Please try again.");
+            } else{
+                //adds to other user's balance
+                accountService.addToBalance(
+                        accountService.getAccountByUserId(userId, currentUser.getToken()),
+                        currentUser.getToken(),
+                        amount,
+                        username);
 
-        /*
-        put accountbalance for sender and receiver
-        check big decimal input > current balance && > 0
-         */
+                //subtracts from current user's balance
+                accountService.subtractFromBalance(
+                        accountService.getAccount(currentUser.getToken()),
+                        currentUser.getToken(),
+                        amount,
+                        currentUser.getUser().getUsername());
 
-        //TODO: add to transaction list if successful
-        //TODO if transfer succeeds print success message
+                System.out.println("Transfer was successful!");
+                //TODO: add transfer method using transferService
+            }
+        }
 	}
 
-	private void requestBucks() {
+    private void requestBucks() {
 
         consoleService.printUsers(userService.userList(currentUser.getToken()));
 
         int userId = consoleService.promptForInt("Enter ID of user you are requesting from (0 to cancel): ");
 
-        String username = accountService.getUsernameByAccount(userId, userService.userList(currentUser.getToken()));
+        if (userId == currentUser.getUser().getId()) {
+            System.out.println("Cannot request money from yourself. Please try again");
 
-        BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
+        } else if (!isInputValidUser(userId)) {
+            System.out.println("User does not exist. Please try again.");
+        } else {
+            String username = accountService.getUsernameByAccount(userId, userService.userList(currentUser.getToken()));
 
-        //add to current user account
-        accountService.addToBalance(
-                accountService.getAccount(currentUser.getToken()),
-                currentUser.getToken(),
-                amount,
-                currentUser.getUser().getUsername());
+            BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
 
-        //subtract from other account's balance
-        accountService.subtractFromBalance(
-                accountService.getAccountByUserId(userId, currentUser.getToken()),
-                currentUser.getToken(),
-                amount,
-                username);
 
-        //TODO: add to transaction list if successful
-        //TODO if transfer succeeds print success message
-	}
+             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+                System.out.println("Cannot request zero or negative bucks. Please try again.");
+            } else {
+
+                //add to current user account
+                accountService.addToBalance(
+                        accountService.getAccount(currentUser.getToken()),
+                        currentUser.getToken(),
+                        amount,
+                        currentUser.getUser().getUsername());
+
+                //subtract from other account's balance
+                accountService.subtractFromBalance(
+                        accountService.getAccountByUserId(userId, currentUser.getToken()),
+                        currentUser.getToken(),
+                        amount,
+                        username);
+
+                 //TODO: add transfer method using transferService
+                 //TODO: print message saying transfer is pending
+            }
+        }
+    }
+
+    private boolean isInputValidUser(int userId) {
+        boolean containsId = false;
+
+        for(User user : userService.userList(currentUser.getToken())){
+            if (user.getId() == userId){
+                containsId = true;
+            }
+        }
+        return containsId;
+    }
 
 }

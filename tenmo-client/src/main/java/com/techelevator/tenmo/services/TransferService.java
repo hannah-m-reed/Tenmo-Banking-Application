@@ -41,6 +41,9 @@ public class TransferService {
     }
 
 
+    //TODO make add method for a new transfer - check for transfer status in method
+
+
     //Post and Put
     private HttpEntity<Transfer> makeTransferEntity(Transfer transfer, String token) {
         HttpHeaders headers = new HttpHeaders();
