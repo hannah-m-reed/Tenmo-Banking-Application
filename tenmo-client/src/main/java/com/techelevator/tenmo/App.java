@@ -1,13 +1,10 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 
 public class App {
 
@@ -117,51 +114,65 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-		/*
-		-------------------------------
-		Users
-		UserID          Name
-		-------------------------------
-		1001             layla
-		1004            jim
-		------------
-
-		prompt for int(Enter ID of user you are sending to (0 to cancel))
-		prompt for big decimal(Enter Amount:)
-
-		 */
 
         consoleService.printUsers(userService.userList(currentUser.getToken()));
-        accountService.addToBalance(accountService.retrieveAccount(consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): "), currentUser.getToken()),
-                currentUser.getToken(), consoleService.promptForBigDecimal("Enter amount: "));
+
+        int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
+
+        String username = accountService.getUsernameByAccount(userId, userService.userList(currentUser.getToken()));
+
+        BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
+
+        //adds to other user's balance
+        accountService.addToBalance(
+            accountService.getAccountByUserId(userId, currentUser.getToken()),
+            currentUser.getToken(),
+            amount,
+            username);
+
+        //subtracts from current user's balance
+        accountService.subtractFromBalance(
+            accountService.getAccount(currentUser.getToken()),
+            currentUser.getToken(),
+            amount,
+            currentUser.getUser().getUsername());
+
+
         /*
         put accountbalance for sender and receiver
         check big decimal input > current balance && > 0
          */
 
+        //TODO: add to transaction list if successful
         //TODO if transfer succeeds print success message
 	}
 
 	private void requestBucks() {
-		// TODO Auto-generated method stub
-		/*
-		-------------------------------
-		Users
-		ID          Name
-		-------------------------------
-		1001             layla
-		1004            jim
-		------------
-
-		prompt for int(Enter ID of user you are requesting from (0 to cancel))
-		prompt for big decimal(Enter Amount:)
-
-		 */
 
         consoleService.printUsers(userService.userList(currentUser.getToken()));
-        consoleService.promptForInt("Enter ID of user you are requesting from (0 to cancel): ");
-        consoleService.promptForBigDecimal("Enter amount: ");
+
+        int userId = consoleService.promptForInt("Enter ID of user you are requesting from (0 to cancel): ");
+
+        String username = accountService.getUsernameByAccount(userId, userService.userList(currentUser.getToken()));
+
+        BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
+
+        //add to current user account
+        accountService.addToBalance(
+                accountService.getAccount(currentUser.getToken()),
+                currentUser.getToken(),
+                amount,
+                currentUser.getUser().getUsername());
+
+        //subtract from other account's balance
+        accountService.subtractFromBalance(
+                accountService.getAccountByUserId(userId, currentUser.getToken()),
+                currentUser.getToken(),
+                amount,
+                username);
+
+        //TODO: add to transaction list if successful
+        //TODO if transfer succeeds print success message
 	}
 
 }

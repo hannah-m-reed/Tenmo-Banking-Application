@@ -51,14 +51,22 @@ public class JdbcAccountDao implements AccountDao{
         return allAccounts;
     }
 
+
     @Override
-    public boolean updateBalance(Account account, BigDecimal newBalance){
+    public Account updateBalance(String username, Account account){
+        Account result = account;
+        String sql = " UPDATE account " +
+                        " SET balance = ? " +
+                        " FROM tenmo_user " +
+                        " WHERE tenmo_user.user_id = account.user_id " +
+                        " AND username = ?; ";
+        int num = jdbcTemplate.update(sql, account.getBalance(), username);
 
-        String sql = " UPDATE account" +
-                        "SET account_balance = ?" +
-                        "WHERE account_id = ?; ";
+        if (num != 1){
+            return null;
+        }
 
-        return jdbcTemplate.update(sql, newBalance, account.getAccountId()) == 1;
+        return result;
 
     }
 

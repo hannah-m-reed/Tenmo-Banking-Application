@@ -10,6 +10,6 @@ public interface AccountDao {
 
     Account retrieveAccount(Principal principal);
     List<Account> allAccounts();
-    boolean updateBalance(Account account, BigDecimal newBalance);
+    Account updateBalance(String username, Account account);
 
 }

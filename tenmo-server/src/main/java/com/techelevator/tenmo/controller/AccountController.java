@@ -4,8 +4,10 @@ import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Path;
 import javax.validation.Valid;
@@ -19,9 +21,11 @@ import java.util.List;
 public class AccountController {
 
     private AccountDao accountDao;
+    private UserDao userDao;
 
-    public AccountController(AccountDao accountDao) {
+    public AccountController(AccountDao accountDao, UserDao userDao) {
         this.accountDao = accountDao;
+        this.userDao = userDao;
     }
 
 
@@ -30,16 +34,24 @@ public class AccountController {
         return accountDao.retrieveAccount(principal);
     }
 
-    @RequestMapping(path = "/account/listAccounts", method = RequestMethod.GET)
+    @RequestMapping(path = "/account/listaccounts", method = RequestMethod.GET)
     public List<Account> listAccounts() {
         return accountDao.allAccounts();
     }
 
-    //TODO PICK UP HERE!!!!
-//    //TODO change id
-//    @RequestMapping(path = "/account/{id}", method = RequestMethod.PUT)
-//    public Account updateBalance(@Valid @RequestBody Account account, @PathVariable int id){
-//        Account updatedAccount = accountDao.updateBalance(account, id);
-//    }
+
+    //TODO: fix this or delete so that it updates correct balance (currently updates principal)
+    @RequestMapping(path = "/account/{username}", method = RequestMethod.PUT)
+    public Account updateBalance(@Valid @RequestBody Account account, @PathVariable("username") String username){
+        //username = principal.getName();
+        Account updatedAccount = accountDao.updateBalance(username, account);
+
+        if(updatedAccount == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found", null);
+        }
+
+        return updatedAccount;
+
+    }
 
 }
