@@ -31,7 +31,11 @@ public class AccountController {
 
     @RequestMapping(path = "/account/", method = RequestMethod.GET)
     public Account get(Principal principal){
-        return accountDao.retrieveAccount(principal);
+        Account result = accountDao.retrieveAccount(principal);
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found", null);
+        }
+        return result;
     }
 
     @RequestMapping(path = "/account/listaccounts", method = RequestMethod.GET)
@@ -40,18 +44,14 @@ public class AccountController {
     }
 
 
-    //TODO: fix this or delete so that it updates correct balance (currently updates principal)
+
     @RequestMapping(path = "/account/{username}", method = RequestMethod.PUT)
     public Account updateBalance(@Valid @RequestBody Account account, @PathVariable("username") String username){
-        //username = principal.getName();
         Account updatedAccount = accountDao.updateBalance(username, account);
-
         if(updatedAccount == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found", null);
         }
-
         return updatedAccount;
-
     }
 
 }

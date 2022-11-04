@@ -4,8 +4,10 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -33,16 +35,20 @@ public class TransferController {
 
     @RequestMapping(path = "/transfer/{id}", method = RequestMethod.GET)
     public Transfer getTransfer(@PathVariable("id") int transferId, Principal principal){
-
         int userId = userDao.findIdByUsername(principal.getName());
-        return transferDao.getSingleTransfer(transferId, userId);
+        Transfer result = transferDao.getSingleTransfer(transferId, userId);
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfer not found", null);
+        }
+        return result;
     }
-
-    //TODO method to add (post) new transfer
 
     @RequestMapping(path = "/transfer/new", method = RequestMethod.POST)
     public Transfer newTransfer(@Valid @RequestBody Transfer transfer) {
-        transferDao.createTransfer(transfer);
+        boolean success = transferDao.createTransfer(transfer);
+        if (!success) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfer to be added was not found", null);
+        }
         return transfer;
     }
 
