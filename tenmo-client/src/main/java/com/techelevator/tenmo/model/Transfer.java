@@ -133,19 +133,4 @@ public class Transfer {
     }
 
 
-//    @Override
-//    public String toString() {
-//        return "Transfer{" +
-//                "transferId=" + transferId +
-//                ", transferTypeId=" + transferTypeId +
-//                ", transferStatusId=" + transferStatusId +
-//                ", accountFrom=" + accountFrom +
-//                ", accountTo=" + accountTo +
-//                ", amount=" + amount +
-//                ", transferTypeDescription='" + transferTypeDescription + '\'' +
-//                ", transferStatusDescription='" + transferStatusDescription + '\'' +
-//                ", userTo='" + userTo + '\'' +
-//                ", userFrom='" + userFrom + '\'' +
-//                '}';
-//    }
 }

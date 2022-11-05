@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.dao;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -89,21 +88,7 @@ public class JdbcTransferDao implements TransferDao{
         return transfer;
     }
 
-//    public Transfer getTransfer(int transferId){
-//        Transfer transfer = new Transfer();
-//
-//        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount " +
-//                    " FROM transfer " +
-//                    " WHERE transfer_id = ?; ";
-//
-//        SqlRowSet result = jdbcTemplate.queryForRowSet(sql , transferId);
-//        if (result.next()){
-//            transfer = mapRowToSingleTransfer(result);
-//
-//        }
-//    }
-
-    //TODO method to add (post) new transfer
+    @Override
     public boolean createTransfer(Transfer transfer){
         String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount ) " +
                         "VALUES (?, ?, ?, ?, ?); ";
@@ -114,7 +99,21 @@ public class JdbcTransferDao implements TransferDao{
                                     transfer.getAccountTo(),
                                     transfer.getAmount()) == 1;
 
+    }
 
+    @Override
+    public Transfer updateTransferStatus (int transferId, Transfer transfer){
+        Transfer result = transfer;
+        String sql = " UPDATE transfer " +
+                    " SET transfer_status_id = ? " +
+                    " WHERE transfer_id = ? ";
+        int num = jdbcTemplate.update(sql, transfer.getTransferStatusId(), transferId);
+
+        if(num != 1){
+            return null;
+        }
+
+        return result;
     }
 
     private Transfer mapRowToSingleTransfer(SqlRowSet results){

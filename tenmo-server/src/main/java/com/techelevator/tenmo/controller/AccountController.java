@@ -1,7 +1,6 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
-import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.http.HttpStatus;
@@ -29,9 +28,9 @@ public class AccountController {
     }
 
 
-    @RequestMapping(path = "/account/", method = RequestMethod.GET)
-    public Account get(Principal principal){
-        Account result = accountDao.retrieveAccount(principal);
+    @RequestMapping(path = "/account/{username}", method = RequestMethod.GET)
+    public Account get(@Valid @PathVariable String username){
+        Account result = accountDao.retrieveAccount(username);
         if (result == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found", null);
         }

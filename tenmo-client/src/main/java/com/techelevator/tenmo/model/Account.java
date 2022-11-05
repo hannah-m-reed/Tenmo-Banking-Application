@@ -12,11 +12,8 @@ public class Account {
     private int userId;
     private BigDecimal balance;
 
-
-    //TODO see if this is needed
     public Account(){};
 
-    //TODO see if this is needed
     public Account(int accountId, int userId, BigDecimal balance) {
         this.accountId = accountId;
         this.userId = userId;
@@ -36,26 +33,8 @@ public class Account {
         return balance;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "accountId=" + accountId +
-                ", userId=" + userId +
-                ", balance=" + balance +
-                '}';
-    }
 }

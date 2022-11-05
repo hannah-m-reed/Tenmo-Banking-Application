@@ -30,11 +30,10 @@ public class AccountService {
 
 
     //used for getting balance
-    public Account getAccount(String token) {
+    public Account getAccount(String username, String token) {
         Account account= null;
         try {
-            // Add code here to send the request to the API and get the account from the response.
-            HttpEntity<Account> entity = restTemplate.exchange(API_BASE_URL, HttpMethod.GET, makeAuthEntity(token), Account.class);
+            HttpEntity<Account> entity = restTemplate.exchange(API_BASE_URL + username, HttpMethod.GET, makeAuthEntity(token), Account.class);
             account = entity.getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
@@ -49,7 +48,6 @@ public class AccountService {
                 username = user.getUsername();
             }
         }
-
         return username;
     }
 
@@ -64,6 +62,28 @@ public class AccountService {
         return account;
     }
 
+    public Account getAccountByAccountId(int accountId, String token){
+        Account[] accountArray = getAllAccounts(token);
+        Account account = null;
+        for (Account element: accountArray){
+            if (element.getAccountId() == accountId) {
+                account = element;
+            }
+        }
+        return account;
+    }
+
+    public int getUserIdByAccountId(int accountId, String token){
+        Account[] accountArray = getAllAccounts(token);
+       int userId = 0;
+        for (Account element: accountArray){
+            if (element.getAccountId() == accountId) {
+                userId = element.getUserId();
+            }
+        }
+        return userId;
+    }
+
 
     public boolean addToBalance(Account account, String token, BigDecimal amountAdded, String username) {
 
@@ -72,7 +92,6 @@ public class AccountService {
         account.setBalance(newBalance);
 
         HttpEntity<Account> entity = makeAccountEntity(account, token);
-
 
         boolean success = false;
         try {
@@ -102,8 +121,6 @@ public class AccountService {
         }
         return success;
     }
-
-
 
     //Post and Put
     private HttpEntity<Account> makeAccountEntity(Account account, String token) {

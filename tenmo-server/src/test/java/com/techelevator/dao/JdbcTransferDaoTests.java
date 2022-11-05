@@ -16,8 +16,6 @@ import java.util.List;
 public class JdbcTransferDaoTests extends BaseDaoTests{
 
     protected static final Transfer TRANSFER_1 = new Transfer(3001, 2, 2, 2001, 2002, BigDecimal.valueOf(50));
-    protected static final Transfer TRANSFER_2 = new Transfer(3002, 2, 2, 2002, 2001, BigDecimal.valueOf(20));
-    protected static final Transfer TRANSFER_3 = new Transfer(3003, 1, 2, 2001, 2002, BigDecimal.valueOf(80));
 
     private JdbcTransferDao dao;
 
@@ -28,9 +26,6 @@ public class JdbcTransferDaoTests extends BaseDaoTests{
     }
 
 
-    //TODO:
-    //TEST: listoftransfers should return let of all transfers related to user
-
     @Test
     public void listOfTransfers_returnsRelatedTransfers(){
         List<Transfer> transfers = dao.listOfTransfer(1001);
@@ -38,12 +33,23 @@ public class JdbcTransferDaoTests extends BaseDaoTests{
         Assert.assertEquals(3, transfers.size());
     }
 
-    //TEST: getsingletransfer should return details of correct transfer based on transferID
-                            //should return null if transfer doesn't exist ? needed since we check on the front end
 
-    //TEST: createtransfer should return true when transfer is a success
+    @Test
+    public void getSingleTransfer_returnsCorrectTransfer_byId() {
+        int expectedId = 3001;
+        int actualId = dao.getSingleTransfer(3001, 1001).getTransferId();
+
+        Assert.assertEquals(expectedId, actualId);
+    }
 
 
+    @Test
+    public void createTransfer_returnsTrue_withNewTransfer() {
+        boolean expected = true;
+        boolean actual = dao.createTransfer(TRANSFER_1);
+
+        Assert.assertEquals(expected, actual);
+    }
 
 
 }

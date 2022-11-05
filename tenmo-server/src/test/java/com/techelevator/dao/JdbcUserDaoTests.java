@@ -31,6 +31,7 @@ public class JdbcUserDaoTests extends BaseDaoTests {
 
     @Test(expected = UsernameNotFoundException.class)
     public void findIdByUsername_given_invalid_username_throws_exception() {
+
         sut.findIdByUsername("invalid");
     }
 

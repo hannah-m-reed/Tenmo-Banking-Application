@@ -8,14 +8,19 @@ public class Transfer {
 
     @JsonProperty ("transfer_id")
     private int transferId;
+
     @JsonProperty ("transfer_type_id")
     private int transferTypeId;
+
     @JsonProperty ("transfer_status_id")
     private int transferStatusId;
+
     @JsonProperty ("account_from")
     private int accountFrom;
+
     @JsonProperty ("account_to")
     private int accountTo;
+
     private BigDecimal amount;
     @JsonProperty ("transfer_type_desc")
     private String transferTypeDescription;

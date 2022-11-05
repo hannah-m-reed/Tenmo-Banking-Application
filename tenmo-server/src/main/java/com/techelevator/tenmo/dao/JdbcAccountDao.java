@@ -1,13 +1,12 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
-import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,10 @@ public class JdbcAccountDao implements AccountDao{
 
 
     @Override
-    public Account retrieveAccount(Principal principal){
+    public Account retrieveAccount(String username){
+
+        if (username == null) throw new IllegalArgumentException("Username cannot be null");
+
         Account account = new Account();
 
         String sql = "SELECT account_id, account.user_id, balance " +
@@ -30,10 +32,11 @@ public class JdbcAccountDao implements AccountDao{
                                         " (SELECT user_id " +
                                         " FROM tenmo_user " +
                                         " WHERE username = ?); ";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, principal.getName());
-        if (result.next()){
-            return mapRowToAccount(result);
-        }
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, username);
+            if (result.next()){
+                return mapRowToAccount(result);
+            }
+
         return account;
     }
 
@@ -54,6 +57,8 @@ public class JdbcAccountDao implements AccountDao{
 
     @Override
     public Account updateBalance(String username, Account account){
+        if (username == null) throw new IllegalArgumentException("Username cannot be null");
+
         Account result = account;
         String sql = " UPDATE account " +
                         " SET balance = ? " +

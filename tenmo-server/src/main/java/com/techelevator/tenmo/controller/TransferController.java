@@ -52,4 +52,14 @@ public class TransferController {
         return transfer;
     }
 
+    @RequestMapping(path = "/transfer/{id}", method = RequestMethod.PUT)
+    public Transfer updateTransferStatus(@Valid @RequestBody Transfer transfer, @PathVariable("id") int transferId){
+        Transfer updatedTransfer = transferDao.updateTransferStatus(transferId, transfer);
+        if (updatedTransfer == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfer not found.", null);
+        }
+        return updatedTransfer;
+    }
+
+
 }

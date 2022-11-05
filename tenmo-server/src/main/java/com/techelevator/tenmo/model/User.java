@@ -9,6 +9,7 @@ import java.util.Set;
 public class User {
 
    private int id;
+
    private String username;
    @JsonIgnore // prevent from being sent to client
    private String password;

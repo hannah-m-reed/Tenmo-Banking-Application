@@ -25,13 +25,6 @@ public class UserService {
         return userList;
     }
 
-    //Post and Put
-    private HttpEntity<User> makeUserEntity(User user, String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(token);
-        return new HttpEntity<>(user, headers);
-    }
 
     //Get and Delete
     private HttpEntity makeAuthEntity(String token) {

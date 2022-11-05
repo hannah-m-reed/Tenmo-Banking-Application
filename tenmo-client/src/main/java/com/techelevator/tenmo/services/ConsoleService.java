@@ -1,7 +1,5 @@
 package com.techelevator.tenmo.services;
 
-
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -62,15 +60,14 @@ public class ConsoleService {
         return scanner.nextLine();
     }
 
-    public void printTransferList(Transfer[] transfers) {
+    public void printTransferList(Transfer[] transfers, int accountId) {
         System.out.println("-------------------------");
         System.out.println("Transfers");
         System.out.println("ID          From/To         Amount");
         System.out.println("-------------------------");
         for(Transfer transfer: transfers) {
-            //TODO check Null
-            if (transfer.getTransferTypeId() == 2) {
-                //TODO fix account number instead of name
+
+            if (transfer.getAccountFrom() == accountId) {
                 System.out.println(transfer.getTransferId() + "     To:   " + transfer.getUsername() + "       $" + transfer.getAmount());
             } else {
                 System.out.println(transfer.getTransferId() + "     From: " + transfer.getUsername() + "       $" + transfer.getAmount());
@@ -79,23 +76,19 @@ public class ConsoleService {
         System.out.println("---------");
     }
 
-
-    public void printPendingTransfers(Transfer[] transfers) {
+    public void printPendingTransfers(Transfer[] transfers, int accountId) {
         System.out.println("-------------------------");
         System.out.println("Pending Transfers");
         System.out.println("ID          To         Amount");
         System.out.println("-------------------------");
         for(Transfer transfer: transfers) {
-            //TODO check Null
-            if (transfer.getTransferStatusId() == 1) {
-                //TODO fix account number instead of name
-                System.out.println(transfer.getTransferId() + "     " + transfer.getUsername() + "       $" + transfer.getAmount());
+            if (transfer.getTransferStatusId() == 1 && transfer.getAccountFrom() == accountId) {
+                System.out.println(transfer.getTransferId() + "      " + transfer.getUsername() + "       $" + transfer.getAmount());
             }
         }
         System.out.println("---------");
     }
 
-    //TODO rename?
     public void printUsers(User[] users){
         System.out.println("-------------------------");
         System.out.println("Users");
@@ -120,6 +113,14 @@ public class ConsoleService {
         }
     }
 
+
+    public void printApproveRejectMenu(){
+        System.out.println("1: Approve");
+        System.out.println("2: Reject");
+        System.out.println("0: Don't approve or reject");
+        System.out.println("---------");
+    }
+
     public void printOneTransfer(Transfer transfer){
         System.out.println("-------------------------");
         System.out.println("Transfer detail: ");
@@ -131,10 +132,7 @@ public class ConsoleService {
         System.out.println("Status: " + transfer.getTransferStatusDescription());
         System.out.println("Amount: $" + transfer.getAmount());
         System.out.println("---------");
-
     }
-
-
 
 
     public BigDecimal promptForBigDecimal(String prompt) {
